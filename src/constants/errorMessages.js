@@ -1,0 +1,69 @@
+const ERROR = '[ERROR]';
+const LOTTO_NUMBER_ERROR = `${ERROR} 로또 번호가 잘못된 형식입니다.`;
+const WINNING_NUMBER_ERROR = `${ERROR} 당첨 번호가 잘못된 형식입니다.`;
+const BONUS_NUMBER_ERROR = `${ERROR} 보너스 번호가 잘못된 형식입니다.`;
+const PURCHASE_AMOUNT_ERROR = `${ERROR} 구입금액이 잘못된 형식입니다.`;
+
+const LOTTO_NUMBER_LENGTH_ERROR = '로또 번호는 6자리여야 합니다.';
+const LOTTO_NUMBER_IN_RANGE_ERROR = '로또 번호는 1부터 45사이의 숫자여야 합니다.';
+const LOTTO_NUMBER_DUPLICATION_ERROR = '로또 번호는 중복이 없어야 합니다.';
+const LOTTO_NUMBER_INTEGER_ERROR = '로또 번호는 정수여야 합니다.';
+const LOTTO_NUMBER_UNDEFINED_ERROR = '로또 번호에 undefined 값이 없어야 합니다.';
+
+const LOTTO_NUMBER_ERROR_MESSAGE = Object.freeze({
+  length: `${LOTTO_NUMBER_ERROR} ${LOTTO_NUMBER_LENGTH_ERROR}`,
+  inRange: `${LOTTO_NUMBER_ERROR} ${LOTTO_NUMBER_IN_RANGE_ERROR}`,
+  duplication: `${LOTTO_NUMBER_ERROR} ${LOTTO_NUMBER_DUPLICATION_ERROR}`,
+  integer: `${LOTTO_NUMBER_ERROR} ${LOTTO_NUMBER_INTEGER_ERROR}`,
+  undefined: `${LOTTO_NUMBER_ERROR} ${LOTTO_NUMBER_UNDEFINED_ERROR}`,
+});
+
+const WINNING_NUMBER_LENGTH_ERROR = '당첨 번호는 6자리여야 합니다.';
+const WINNING_NUMBER_IN_RANGE_ERROR = '당첨 번호는 1부터 45사이의 숫자여야 합니다.';
+const WINNING_NUMBER_DUPLICATION_ERROR = '당첨 번호는 중복이 없어야 합니다.';
+const WINNING_NUMBER_INTEGER_ERROR = '당첨 번호는 정수여야 합니다.';
+const WINNING_NUMBER_FIRST_DIGIT_ZERO_ERROR = '당첨 번호 맨 앞자리에 0이 없어야 합니다.';
+const WINNING_NUMBER_WHITE_SPACE_ERROR = '당첨 번호에 공백이 없어야 합니다.';
+
+const WINNING_NUMBER_ERROR_MESSAGE = Object.freeze({
+  length: `${WINNING_NUMBER_ERROR} ${WINNING_NUMBER_LENGTH_ERROR}`,
+  inRange: `${WINNING_NUMBER_ERROR} ${WINNING_NUMBER_IN_RANGE_ERROR}`,
+  duplication: `${WINNING_NUMBER_ERROR} ${WINNING_NUMBER_DUPLICATION_ERROR}`,
+  integer: `${WINNING_NUMBER_ERROR} ${WINNING_NUMBER_INTEGER_ERROR}`,
+  firstDigitZero: `${WINNING_NUMBER_ERROR} ${WINNING_NUMBER_FIRST_DIGIT_ZERO_ERROR}`,
+  whiteSpace: `${WINNING_NUMBER_ERROR} ${WINNING_NUMBER_WHITE_SPACE_ERROR}`,
+});
+
+const BONUS_NUMBER_IN_RANGE_ERROR = '보너스 번호는 1부터 45사이의 숫자 여야 합니다.';
+const BONUS_NUMBER_INTEGER_ERROR = '보너스 번호는 정수여야 합니다.';
+// eslint-disable-next-line prettier/prettier
+const BONUS_NUMBER_DUPLICATE_WINNING_NUMBER_ERROR = '보너스 번호는 당첨 번호와 겹치지 않아야 합니다.';
+const BONUS_NUMBER_FIRST_DIGIT_ERROR = '보너스 번호 맨 앞자리에 0이 없어야 합니다.';
+const BONUS_NUMBER_WHITE_SPACE_ERROR = '보너스 번호에 공백이 없어야 합니다.';
+
+const BONUS_NUMBER_ERROR_MESSAGE = Object.freeze({
+  inRange: `${BONUS_NUMBER_ERROR} ${BONUS_NUMBER_IN_RANGE_ERROR}`,
+  integer: `${BONUS_NUMBER_ERROR} ${BONUS_NUMBER_INTEGER_ERROR}`,
+  duplicateWinninNumber: `${BONUS_NUMBER_ERROR} ${BONUS_NUMBER_DUPLICATE_WINNING_NUMBER_ERROR}`,
+  firstDigitZero: `${BONUS_NUMBER_ERROR} ${BONUS_NUMBER_FIRST_DIGIT_ERROR}`,
+  whiteSpace: `${BONUS_NUMBER_ERROR} ${BONUS_NUMBER_WHITE_SPACE_ERROR}`,
+});
+
+const PURCHASE_AMOUNT_EXIST_ERROR = '구입 금액을 입력해야 합니다.';
+const PURCHASE_AMOUNT_INTEGER_ERROR = '구입 금액은 정수 여야 합니다.';
+const PURCHASE_AMOUNT_LEAST_ERROR = '구입 금액은 천원 이상 이어야 합니다.';
+const PURCHASE_AMOUNT_THOUSAND_MULTIPLES_ERROR = '구입 금액은 천의 배수여야 합니다.';
+
+const PURCHASE_AMOUNT_ERROR_MESSAGE = Object.freeze({
+  exist: `${PURCHASE_AMOUNT_ERROR} ${PURCHASE_AMOUNT_EXIST_ERROR}`,
+  integer: `${PURCHASE_AMOUNT_ERROR} ${PURCHASE_AMOUNT_INTEGER_ERROR}`,
+  least: `${PURCHASE_AMOUNT_ERROR} ${PURCHASE_AMOUNT_LEAST_ERROR}`,
+  thousandMultiple: `${PURCHASE_AMOUNT_ERROR} ${PURCHASE_AMOUNT_THOUSAND_MULTIPLES_ERROR}`,
+});
+
+export {
+  LOTTO_NUMBER_ERROR_MESSAGE,
+  WINNING_NUMBER_ERROR_MESSAGE,
+  BONUS_NUMBER_ERROR_MESSAGE,
+  PURCHASE_AMOUNT_ERROR_MESSAGE,
+};
