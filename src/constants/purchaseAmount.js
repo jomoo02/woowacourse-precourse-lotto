@@ -1,0 +1,9 @@
+const PURCHASE_AMOUNT_MIN = 1000;
+const PURCHASE_AMOUNT_UNIT = 1000;
+
+const PURCHASE_AMOUNT = Object.freeze({
+  min: PURCHASE_AMOUNT_MIN,
+  unit: PURCHASE_AMOUNT_UNIT,
+});
+
+export default PURCHASE_AMOUNT;
