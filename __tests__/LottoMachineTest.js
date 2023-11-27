@@ -88,12 +88,12 @@ describe('로또 머신 로또 구매 테스트', () => {
   test('구매한 로또의 번호 테스트(로또 객체에서 정렬)', () => {
     const PURCHASE_AMOUNT = 4000;
     const LOTTOS_NUMBERS = [
-      [1, 2, 34, 4, 5, 6],
-      [5, 4, 2, 30, 40, 22],
+      [7, 2, 34, 4, 5, 6],
+      [5, 4, 21, 30, 40, 22],
       [7, 8, 9, 22, 24, 27],
       [14, 1, 22, 34, 24, 41],
     ];
-    mockRandoms(LOTTOS_NUMBERS);
+    mockRandoms([...LOTTOS_NUMBERS]);
 
     const purchasedLottos = LottoMachine.buyLottos(PURCHASE_AMOUNT);
 

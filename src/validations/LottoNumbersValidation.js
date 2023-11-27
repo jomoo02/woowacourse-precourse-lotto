@@ -1,7 +1,8 @@
 import LOTTO_NUMBER from '../constants/lotto.js';
 import { LOTTO_NUMBER_ERROR_MESSAGE } from '../constants/errorMessages.js';
+import throwError from '../utils/throwError.js';
 
-class LottoValidation {
+class LottoNumbersValidation {
   #numbers;
 
   constructor(numbers) {
@@ -9,59 +10,57 @@ class LottoValidation {
   }
 
   validate() {
-    this.#checkLength().#checkDuplication().#checkInRage().#checkInteger().#checkUndefined();
+    const { length, duplication, inRange, integer, exist } = LOTTO_NUMBER_ERROR_MESSAGE;
+
+    this.checkLength(length).checkDuplication(duplication).checkInRage(inRange).checkInteger(integer).checkExist(exist);
   }
 
-  #checkLength() {
+  checkLength(errorMessage) {
     const isNotCorrectLength = this.#numbers.length !== LOTTO_NUMBER.length;
 
     if (isNotCorrectLength) {
-      LottoValidation.#throwError(LOTTO_NUMBER_ERROR_MESSAGE.length);
+      throwError(errorMessage);
     }
     return this;
   }
 
-  #checkDuplication() {
+  checkDuplication(errorMessage) {
     const deDuplicatedNumbers = [...new Set(this.#numbers)];
     const isDuplication = this.#numbers.length !== deDuplicatedNumbers.length;
 
     if (isDuplication) {
-      LottoValidation.#throwError(LOTTO_NUMBER_ERROR_MESSAGE.duplication);
+      throwError(errorMessage);
     }
     return this;
   }
 
-  #checkInRage() {
+  checkInRage(errorMessage) {
     const rangeCondition = (number) => number >= LOTTO_NUMBER.min && number <= LOTTO_NUMBER.max;
     const isNotInRage = !this.#numbers.every(rangeCondition);
 
     if (isNotInRage) {
-      LottoValidation.#throwError(LOTTO_NUMBER_ERROR_MESSAGE.inRange);
+      throwError(errorMessage);
     }
     return this;
   }
 
-  #checkInteger() {
+  checkInteger(errorMessage) {
     const isNotInteger = !this.#numbers.every((number) => Number.isInteger(number));
 
     if (isNotInteger) {
-      LottoValidation.#throwError(LOTTO_NUMBER_ERROR_MESSAGE.integer);
+      throwError(errorMessage);
     }
     return this;
   }
 
-  #checkUndefined() {
+  checkExist(errorMessage) {
     for (let index = 0; index < this.#numbers.length; index += 1) {
-      if (this.#numbers[index] === undefined) {
-        LottoValidation.#throwError(LOTTO_NUMBER_ERROR_MESSAGE.undefined);
+      if (this.#numbers[index] === undefined || this.#numbers[index] === null) {
+        throwError(errorMessage);
       }
     }
     return this;
   }
-
-  static #throwError(message) {
-    throw new Error(message);
-  }
 }
 
-export default LottoValidation;
+export default LottoNumbersValidation;
