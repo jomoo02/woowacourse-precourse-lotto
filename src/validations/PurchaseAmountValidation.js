@@ -1,5 +1,6 @@
 import PURCHASE_AMOUNT from '../constants/purchaseAmount.js';
 import { PURCHASE_AMOUNT_ERROR_MESSAGE } from '../constants/errorMessages.js';
+import throwError from '../utils/throwError.js';
 
 class PurchaseAmountValidation {
   #purchaseAmount;
@@ -9,47 +10,44 @@ class PurchaseAmountValidation {
   }
 
   validate() {
-    this.#checkExist().#checkGreaterMin().#checkUnit().#checkInteger();
+    const { exist, min, integer, thousandUnit } = PURCHASE_AMOUNT_ERROR_MESSAGE;
+    this.checkExist(exist).checkGreaterMin(min).checkUnit(thousandUnit).checkInteger(integer);
   }
 
-  #checkExist() {
+  checkExist(message) {
     const isNotExist = this.#purchaseAmount === undefined;
 
     if (isNotExist) {
-      PurchaseAmountValidation.#throwError(PURCHASE_AMOUNT_ERROR_MESSAGE.exist);
+      throwError(message);
     }
     return this;
   }
 
-  #checkGreaterMin() {
+  checkGreaterMin(message) {
     const isLessMin = this.#purchaseAmount < PURCHASE_AMOUNT.min;
 
     if (isLessMin) {
-      PurchaseAmountValidation.#throwError(PURCHASE_AMOUNT_ERROR_MESSAGE.min);
+      throwError(message);
     }
     return this;
   }
 
-  #checkUnit() {
+  checkUnit(message) {
     const isNotUnit = this.#purchaseAmount % PURCHASE_AMOUNT.unit !== 0;
 
     if (isNotUnit) {
-      PurchaseAmountValidation.#throwError(PURCHASE_AMOUNT_ERROR_MESSAGE.thousandUnit);
+      throwError(message);
     }
     return this;
   }
 
-  #checkInteger() {
+  checkInteger(message) {
     const isNotInteger = !Number.isInteger(this.#purchaseAmount);
 
     if (isNotInteger) {
-      PurchaseAmountValidation.#throwError(PURCHASE_AMOUNT_ERROR_MESSAGE.integer);
+      throwError(message);
     }
     return this;
-  }
-
-  static #throwError(message) {
-    throw new Error(message);
   }
 }
 
