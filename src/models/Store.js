@@ -47,9 +47,10 @@ class Store {
   }
 
   static #createMatchs() {
-    const { three, four, five, fiveAndBonus, six } = MATCH_TYPE;
+    const { etc, three, four, five, fiveAndBonus, six } = MATCH_TYPE;
     const ZERO = MATCH_COUNT.zero;
     return {
+      [etc]: ZERO,
       [three]: ZERO,
       [four]: ZERO,
       [five]: ZERO,

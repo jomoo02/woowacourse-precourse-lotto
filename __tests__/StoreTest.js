@@ -8,6 +8,7 @@ describe('저장소 테스트', () => {
 
   beforeEach(() => {
     initialStore = {
+      [etc]: ZERO,
       [three]: ZERO,
       [four]: ZERO,
       [five]: ZERO,
