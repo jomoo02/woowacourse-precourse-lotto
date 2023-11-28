@@ -10,13 +10,17 @@ class Winning {
     this.#setNumbers(winningNumbers, bonusNumber);
   }
 
-  matchWinningNumbers(numbers) {
+  matchLottoNumbers(lottoNumbers) {
+    return { count: this.#matchWinningNumbers(lottoNumbers), bonus: this.#matchBonusNumber(lottoNumbers) };
+  }
+
+  #matchWinningNumbers(numbers) {
     const { winningNumbers } = this.#numbers;
     const winningCount = numbers.filter((number) => winningNumbers.includes(number)).length;
     return winningCount;
   }
 
-  matchBonusNumber(numbers) {
+  #matchBonusNumber(numbers) {
     const { bonusNumber } = this.#numbers;
     const isMatchBonusNumber = numbers.includes(bonusNumber);
     return isMatchBonusNumber;

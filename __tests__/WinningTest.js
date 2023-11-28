@@ -91,7 +91,7 @@ describe('당첨 번호 테스트', () => {
 
     const winning = new Winning(WINNING_NUMBER, BONUS_NUMBER);
     LOTTO_NUMBERS.forEach((numbers, index) => {
-      expect(winning.matchWinningNumbers(numbers)).toBe(WINNING_COUNT[index]);
+      expect(winning.matchLottoNumbers(numbers).count).toBe(WINNING_COUNT[index]);
     });
   });
 });
@@ -175,7 +175,7 @@ describe('보너스 번호 테스트', () => {
 
     const winning = new Winning(WINNING_NUMBER, BONUS_NUMBER);
     LOTTO_NUMBERS.forEach((numbers, index) => {
-      expect(winning.matchBonusNumber(numbers)).toBe(WINNING_COUNT[index]);
+      expect(winning.matchLottoNumbers(numbers).bonus).toBe(WINNING_COUNT[index]);
     });
   });
 });
