@@ -4,10 +4,19 @@ import BonusNumberValidation from '../validations/BonusNumberValidation.js';
 class Winning {
   #numbers;
 
-  constructor(winningNumbers, bonusNumber) {
+  constructor() {
+    this.#numbers = { winningNumbers: [], bonusNumber: 0 };
+  }
+
+  setWinningNumbers(winningNumbers) {
     Winning.#validateWinningNumber(winningNumbers);
+    this.#numbers.winningNumbers = winningNumbers.split(',').map((number) => Number(number));
+  }
+
+  setBonusNumber(bonusNumber) {
+    const { winningNumbers } = this.#numbers;
     Winning.#validateBonusNumber(winningNumbers, bonusNumber);
-    this.#setNumbers(winningNumbers, bonusNumber);
+    this.#numbers.bonusNumber = Number(bonusNumber);
   }
 
   matchLottoNumbers(lottoNumbers) {
@@ -24,15 +33,6 @@ class Winning {
     const { bonusNumber } = this.#numbers;
     const isMatchBonusNumber = numbers.includes(bonusNumber);
     return isMatchBonusNumber;
-  }
-
-  #setNumbers(winningNumbers, bonusNumber) {
-    const winningNumberArray = winningNumbers.split(',').map((number) => Number(number));
-    const bonusNumberToNumber = Number(bonusNumber);
-    this.#numbers = {
-      winningNumbers: winningNumberArray,
-      bonusNumber: bonusNumberToNumber,
-    };
   }
 
   static #validateWinningNumber(winningNumber) {

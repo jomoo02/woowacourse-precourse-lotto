@@ -22,7 +22,7 @@ class BonusNumberValidation extends WinningNumbersValidation {
 
   checDuplicateWinningNumbers(message) {
     const { winningNumbers, bonusNumber } = this.#numbers;
-    const isDuplicationWinningNumbers = winningNumbers.includes(bonusNumber);
+    const isDuplicationWinningNumbers = winningNumbers.includes(Number(bonusNumber));
 
     if (isDuplicationWinningNumbers) {
       throwError(message);

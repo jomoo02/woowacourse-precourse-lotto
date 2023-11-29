@@ -21,7 +21,7 @@ describe('유저 테스트', () => {
     const PURCHASE_AMOUNT = '2000';
     const COUNT_LOTTOS = 2;
     const user = new User();
-    const userLottos = user.buyLottos(PURCHASE_AMOUNT).getLotts();
+    const userLottos = user.buyLottos(PURCHASE_AMOUNT).getLottos();
 
     expect(userLottos.length).toBe(COUNT_LOTTOS);
   });
@@ -41,7 +41,7 @@ describe('유저 테스트', () => {
     ];
     const user = new User();
     mockRandoms([...LOTTOS_NUMBERS]);
-    const userLottos = user.buyLottos(PURCHASE_AMOUNT).getLotts();
+    const userLottos = user.buyLottos(PURCHASE_AMOUNT).getLottos();
 
     userLottos.forEach((lotto, index) => {
       expect(lotto instanceof Lotto).toBeTruthy();
@@ -67,7 +67,7 @@ describe('유저 테스트', () => {
       [fiveAndBonus]: 1,
       [six]: 0,
     };
-    const TOTAL_PROFIT_RATE = 1000166.7;
+    const TOTAL_PROFIT_RATE = '1000166.7';
 
     const user = new User();
     mockRandoms([...LOTTOS_NUMBERS]);

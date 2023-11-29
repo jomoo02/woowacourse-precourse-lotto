@@ -18,7 +18,7 @@ class User {
     return this;
   }
 
-  getLotts() {
+  getLottos() {
     return this.#lottos;
   }
 
@@ -31,8 +31,8 @@ class User {
   }
 
   getTotalProfitRate() {
-    const totalProfitRage = (this.#store.getTotalMatchMoney() / (this.#lottos.length * PURCHASE_AMOUNT.unit)) * 100;
-    return Number(totalProfitRage.toFixed(1));
+    const totalProfitRate = (this.#store.getTotalMatchMoney() / (this.#lottos.length * PURCHASE_AMOUNT.unit)) * 100;
+    return totalProfitRate.toFixed(1);
   }
 
   static #validatePurchaseAmount(purchaseAmount) {
