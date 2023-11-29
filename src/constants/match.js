@@ -57,3 +57,4 @@ const MATCH_MONEY = Object.freeze({
 });
 
 export { MATCH_TYPE, MATCH_COUNT, MATCH_STRING, MATCH_MONEY };
+
