@@ -1,99 +1,209 @@
-import Winning from '../src/model/Winning';
-import Lotto from '../src/model/Lotto';
+import Winning from '../src/models/Winning';
 
-describe('class Winning test', () => {
+describe('당첨 번호 테스트', () => {
   let winning;
+
   beforeEach(() => {
     winning = new Winning();
   });
-  test('당첨 번호는 개수가 6개가 아니면 예외가 발생한다.', () => {
+
+  test('당첨 번호가 6자리가 아닌 경우 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5]);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5');
+    }).toThrow('[ERROR] 당첨 번호가');
+
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 6, 7]);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,6,7');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('당첨 번호는 중복된 숫자가 있으면 예외가 발생한다', () => {
+  test('당첨 번호가 중복된 경우 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 5]);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,5');
+    }).toThrow('[ERROR] 당첨 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,1,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('당첨 번호는 정수가 아닌 값이 들어가면 예외가 발생한다', () => {
+  test('당첨 번호가 1부터 45사이의 값이 아닌 경우 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 5.5]);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,46');
+    }).toThrow('[ERROR] 당첨 번호가');
 
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, '4']);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,0,4,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('당첨 번호는 1이상 45이하의 정수가 아니면 예외가 발생한다', () => {
+  test('당첨 번호가 양의 정수가 아닌 값인 경우 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 46]);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,-5');
+    }).toThrow('[ERROR] 당첨 번호가');
 
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 0]);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4.5,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('보너스 번호는 정수가 아니면 예외가 발생한다.', () => {
+  test('당첨 번호에 문자가 있는 경우 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 6]);
-      winning.setBonusNumber(5.5);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,q');
+    }).toThrow('[ERROR] 당첨 번호가');
 
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 6]);
-      winning.setBonusNumber('10');
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,won,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('보너스 번호는 1이상 45이하 정수가 아니면 예외가 발생한다.', () => {
+  test('당첨 번호에 맨 앞에 0이 있는 값은 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 6]);
-      winning.setBonusNumber(0);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,06');
+    }).toThrow('[ERROR] 당첨 번호가');
 
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 6]);
-      winning.setBonusNumber(46);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,04,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('보너스 번호는 당첨 번호와 겹치면 예외가 발생한다.', () => {
+  test('당첨 번호에 공백이 있는 경우 예외 처리한다.', () => {
     expect(() => {
-      winning.setWinningNumbers([1, 2, 3, 4, 5, 6]);
-      winning.setBonusNumber(1);
-    }).toThrow('[ERROR]');
+      winning.setWinningNumbers('1,2,3,4,5,6 ');
+    }).toThrow('[ERROR] 당첨 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers(' 1,2,3,4,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2, 3,4,5,6');
+    }).toThrow('[ERROR] 당첨 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5 ,6');
+    }).toThrow('[ERROR] 당첨 번호가');
   });
 
-  test('당첨 번호와 보너스 번호를 로또 번호와 비교해 결과를 반환한다.', () => {
-    const LOTTOS_NUMBERS = [
-      [3, 10, 20, 4, 5, 42],
-      [7, 20, 10, 4, 5, 40],
+  test('당첨 번호와 번호를 비교해 당첨 수를 반환한다.', () => {
+    const WINNING_NUMBERS = '5,6,12,32,42,39';
+    // const BONUS_NUMBER = '7';
+    const LOTTO_NUMBERS = [
+      [1, 5, 6, 7, 8, 42],
+      [1, 2, 3, 4, 5, 6],
+      [12, 22, 32, 42, 5, 6],
     ];
-    const WINNING_NUMBERS = [5, 20, 10, 4, 1, 40];
-    const BONUS_NUMUBER = 7;
-    const MATCH = [
-      { matchCount: 4, matchBonus: false },
-      { matchCount: 5, matchBonus: true },
-    ];
+    const WINNING_COUNT = [3, 2, 5];
 
-    const lottos = LOTTOS_NUMBERS.map((numbers) => new Lotto(numbers));
     winning.setWinningNumbers(WINNING_NUMBERS);
-    winning.setBonusNumber(BONUS_NUMUBER);
 
-    lottos.forEach((lotto, index) => {
-      const { matchCount, matchBonus } = winning.matchLottoNumbers(lotto.getNumbers());
-      const answer = MATCH[index];
+    LOTTO_NUMBERS.forEach((numbers, index) => {
+      expect(winning.matchLottoNumbers(numbers).count).toBe(WINNING_COUNT[index]);
+    });
+  });
+});
 
-      expect(matchCount).toBe(answer.matchCount);
-      expect(matchBonus).toBe(answer.matchBonus);
+describe('보너스 번호 테스트', () => {
+  let winning;
+
+  beforeEach(() => {
+    winning = new Winning();
+  });
+
+  test('보너스 번호는 1부터 45사이 값이 아니면 예외 처리한다.', () => {
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('46');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('0');
+    }).toThrow('[ERROR] 보너스 번호가');
+  });
+
+  test('보너스 번호는 정수가 아니면 예외 처리한다.', () => {
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('a');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('5.5');
+    }).toThrow('[ERROR] 보너스 번호가');
+  });
+
+  test('보너스 번호가 음수면 예외 처리한다.', () => {
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('-1');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('-10.5');
+    }).toThrow('[ERROR] 보너스 번호가');
+  });
+
+  test('보너스 번호가 당첨 번호와 중복되면 예외 처리한다.', () => {
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('6');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('3');
+    }).toThrow('[ERROR] 보너스 번호가');
+  });
+
+  test('보너스 번호의 맨 앞의 값이 0이면 예외 처리한다.', () => {
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('09');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('007');
+    }).toThrow('[ERROR] 보너스 번호가');
+  });
+
+  test('보너스 번호에 공백이 있으면 예외 처리한다.', () => {
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber(' 9');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('7 ');
+    }).toThrow('[ERROR] 보너스 번호가');
+
+    expect(() => {
+      winning.setWinningNumbers('1,2,3,4,5,6');
+      winning.setBonusNumber('2 4');
+    }).toThrow('[ERROR] 보너스 번호가');
+  });
+
+  test('보너스 번호와 번호를 비교해 번호에 보너스 번호가 있는지 확인한다.', () => {
+    const WINNING_NUMBERS = '5,6,12,32,42,39';
+    const BONUS_NUMBER = '7';
+    const LOTTO_NUMBERS = [
+      [1, 5, 6, 7, 8, 42],
+      [1, 2, 3, 4, 5, 6],
+      [12, 22, 32, 42, 5, 6],
+    ];
+    const EXIST_BONUS_NUMBER = true;
+    const NONE_BONUS_NUMBER = false;
+    const WINNING_COUNT = [EXIST_BONUS_NUMBER, NONE_BONUS_NUMBER, NONE_BONUS_NUMBER];
+
+    winning.setWinningNumbers(WINNING_NUMBERS);
+    winning.setBonusNumber(BONUS_NUMBER);
+
+    LOTTO_NUMBERS.forEach((numbers, index) => {
+      expect(winning.matchLottoNumbers(numbers).bonus).toBe(WINNING_COUNT[index]);
     });
   });
 });

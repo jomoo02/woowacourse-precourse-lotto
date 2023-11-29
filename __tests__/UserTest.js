@@ -1,41 +1,83 @@
-import User from '../src/model/User';
-import Lotto from '../src/model/Lotto';
+import User from '../src/models/User';
+import Lotto from '../src/models/Lotto';
+import pickUniqueNumbersInRange from '../src/utils/pickUniqueNumbersInRange';
+import { MATCH_TYPE } from '../src/constants/match';
 
-describe('User 클래스 테스트', () => {
-  test('구입 금액이 1000원 단위가 아니면 예외가 발상핸다.', () => {
-    expect(() => {
-      new User(7500);
-    }).toThrow('[ERROR]');
+jest.mock('../src/utils/pickUniqueNumbersInRange');
 
-    expect(() => {
-      new User('7000');
-    }).toThrow('[ERROR]');
+const mockRandoms = (numbers) => {
+  numbers.forEach((number) => {
+    pickUniqueNumbersInRange.mockReturnValueOnce(number);
   });
+};
 
-  test('구입 금액이 1000원 단위로 로또를 구매하고 저장한다.', () => {
-    const user = new User(8000);
+describe('유저 테스트', () => {
+  test('유저는 구입 금액 만큼 로또를 산다.(한개 당 천원)', () => {
     const LOTTOS_NUMBERS = [
       [1, 2, 3, 4, 5, 6],
-      [10, 5, 40, 2, 11, 4],
-      [11, 12, 13, 14, 15, 16],
-      [1, 7, 9, 14, 15, 20],
-      [40, 42, 45, 1, 5, 4],
-      [7, 11, 15, 18, 22, 32],
-      [27, 19, 23, 42, 41, 4],
-      [2, 12, 42, 44, 32, 20],
+      [1, 5, 7, 12, 44, 30],
     ];
+    mockRandoms([...LOTTOS_NUMBERS]);
+    const PURCHASE_AMOUNT = '2000';
+    const COUNT_LOTTOS = 2;
+    const user = new User();
+    const userLottos = user.buyLottos(PURCHASE_AMOUNT).getLottos();
 
-    const LOTTOS = LOTTOS_NUMBERS.reduce((acc, cur) => {
-      return [...acc, new Lotto(cur)];
-    }, []);
+    expect(userLottos.length).toBe(COUNT_LOTTOS);
+  });
 
-    user.setLottos(LOTTOS);
-    const userLottos = user.getLottos();
+  test('유저가 로또를 구입할 금액이 천원 단위가 아니면 에러 처리한다.', () => {
+    expect(() => {
+      const user = new User();
+      user.buyLottos('1500');
+    }).toThrow('[ERROR] 구입금액');
+  });
 
-    expect(userLottos.length).toBe(8);
+  test('유저가 로또 객체를 제대로 구입했는지에 따른 테스트', () => {
+    const PURCHASE_AMOUNT = '2000';
+    const LOTTOS_NUMBERS = [
+      [1, 2, 3, 4, 5, 6],
+      [1, 5, 7, 12, 44, 30],
+    ];
+    const user = new User();
+    mockRandoms([...LOTTOS_NUMBERS]);
+    const userLottos = user.buyLottos(PURCHASE_AMOUNT).getLottos();
 
     userLottos.forEach((lotto, index) => {
-      expect(lotto.getNumbers()).toEqual(LOTTOS_NUMBERS[index]);
+      expect(lotto instanceof Lotto).toBeTruthy();
+      expect(lotto.getNumbers()).toEqual(LOTTOS_NUMBERS[index].sort((a, b) => a - b));
     });
+  });
+
+  test('유저의 로또를 당첨 번호와 보너스 번호를 비교한 결과를 저장하고 반환한다.', () => {
+    // 당첨 번호 1, 2, 3, 4, 5, 7
+    // 보너스 번호 6
+    const { three, four, five, fiveAndBonus, six, etc } = MATCH_TYPE;
+    const PURCHASE_AMOUNT = '3000';
+    const LOTTOS_NUMBERS = [
+      [1, 2, 3, 4, 5, 6],
+      [1, 5, 7, 12, 44, 30],
+      [3, 5, 31, 44, 45, 2],
+    ];
+    const MATCH_RESULT = {
+      [etc]: 1,
+      [three]: 1,
+      [four]: 0,
+      [five]: 0,
+      [fiveAndBonus]: 1,
+      [six]: 0,
+    };
+    const TOTAL_PROFIT_RATE = '1000166.7';
+
+    const user = new User();
+    mockRandoms([...LOTTOS_NUMBERS]);
+    user.buyLottos(PURCHASE_AMOUNT);
+
+    user.saveMatchResult({ count: 5, bonus: true });
+    user.saveMatchResult({ count: 3, bonus: false });
+    user.saveMatchResult({ count: 2, bonus: false });
+
+    expect(user.getMatchResult()).toEqual(MATCH_RESULT);
+    expect(user.getTotalProfitRate()).toBe(TOTAL_PROFIT_RATE);
   });
 });
